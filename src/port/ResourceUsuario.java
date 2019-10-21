@@ -40,6 +40,22 @@ public class ResourceUsuario extends BaseResource {
 		}
 	}
 
+	@POST
+	@Path("/entrar")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response entrar(final String u) {
+		try {
+			if (u == null) {
+				return pedidoRuim();
+			}
+			Usuario usuario = gson.fromJson(u, Usuario.class);
+			Usuario logado = servico.entrar(usuario);
+			return sucesso(logado);
+		} catch (Exception e) {
+			return erroNoServidor(e);
+		}
+	}
+
 	@GET
 	@Path("/{idUsuario}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -52,8 +68,7 @@ public class ResourceUsuario extends BaseResource {
 			if ((usuario == null) || (usuario.getIdUsuario() == null)) {
 				return pedidoRuim();
 			}
-			String json = gson.toJson(usuario);
-			return sucesso(json);
+			return sucesso(usuario);
 		} catch (Exception e) {
 			return erroNoServidor(e);
 		}
@@ -63,9 +78,8 @@ public class ResourceUsuario extends BaseResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response read() {
 		try {
-			List<Usuario> lista = servico.read();
-			String json = gson.toJson(lista);
-			return sucesso(json);
+			List<Usuario> lista = servico.readAll();
+			return sucesso(lista);
 		} catch (Exception e) {
 			return erroNoServidor(e);
 		}

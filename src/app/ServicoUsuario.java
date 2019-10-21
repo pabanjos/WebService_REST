@@ -1,37 +1,83 @@
 package app;
 
 import java.util.List;
+import java.util.Objects;
 
+import javax.inject.Singleton;
+
+import beans.Compra;
+import beans.Filme;
+import beans.Log;
 import beans.Usuario;
+import dao.DaoCompra;
+import dao.DaoFilme;
 import dao.DaoUsuario;
-import dao.IDao;
+import servico.ServicoLogs;
 
-public class ServicoUsuario {
+@Singleton
+public class ServicoUsuario implements ICRUD<Usuario> {
 
-	private final IDao<Usuario> dao = new DaoUsuario();
+	private final ICRUD<Usuario> daoUsuario = new DaoUsuario();
+	private final ICRUD<Compra> daoCompra = new DaoCompra();
+	private final ICRUD<Filme> daoFilme = new DaoFilme();
 
 	public ServicoUsuario() {
 		super();
 	}
 
-	public void create(final Usuario usuario) throws Exception {
-		dao.create(usuario);
+	@Override
+	public void create(final Usuario obj) throws Exception {
+		daoUsuario.create(obj);
 	}
 
-	public Usuario readById(final Integer idUsuario) throws Exception {
-		return dao.readById(idUsuario);
+	@Override
+	public void createAll(final List<Usuario> list) throws Exception {
+		throw new UnsupportedOperationException();
 	}
 
-	public List<Usuario> read() throws Exception {
-		return dao.read();
+	@Override
+	public Usuario readById(final int id) throws Exception {
+		return daoUsuario.readById(id);
 	}
 
-	public void update(final Usuario usuario) throws Exception {
-		dao.update(usuario);
+	@Override
+	public List<Usuario> readAll() throws Exception {
+		return daoUsuario.readAll();
 	}
 
-	public void deleteById(final Integer idUsuario) throws Exception {
-		dao.deleteById(idUsuario);
+	@Override
+	public void update(final Usuario obj) throws Exception {
+		daoUsuario.update(obj);
+	}
+
+	@Override
+	public void updateAll(final List<Usuario> list) throws Exception {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void deleteById(final int id) throws Exception {
+		daoUsuario.deleteById(id);
+	}
+
+	@Override
+	public void deleteAllById(final int[] ids) throws Exception {
+		throw new UnsupportedOperationException();
+	}
+
+	public Usuario entrar(final Usuario usuario) throws Exception {
+		Usuario resultado = null;
+		if (Objects.isNull(usuario.getLogin()) || Objects.isNull(usuario.getSenha())) {
+			ServicoLogs.adicionar(Log.falha("dados inválidos"));
+		} else {
+			resultado = ((DaoUsuario) daoUsuario).entrar(usuario);
+			if (resultado == null) {
+				ServicoLogs.adicionar(Log.falha("login e senha não encontrados"));
+			} else {
+				ServicoLogs.adicionar(Log.sucesso("logado com sucesso"));
+			}
+		}
+		return resultado;
 	}
 
 }

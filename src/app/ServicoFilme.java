@@ -4,34 +4,53 @@ import java.util.List;
 
 import beans.Filme;
 import dao.DaoFilme;
-import dao.IDao;
 
-public class ServicoFilme {
+public class ServicoFilme implements ICRUD<Filme> {
 
-	private final IDao<Filme> dao = new DaoFilme();
+	private final ICRUD<Filme> dao = new DaoFilme();
 
 	public ServicoFilme() {
 		super();
 	}
 
-	public void create(final Filme filme) throws Exception {
-		dao.create(filme);
+	@Override
+	public void create(final Filme obj) throws Exception {
+		dao.create(obj);
 	}
 
-	public Filme readById(final Integer idFilme) throws Exception {
-		return dao.readById(idFilme);
+	@Override
+	public void createAll(final List<Filme> list) throws Exception {
+		throw new UnsupportedOperationException();
 	}
 
-	public List<Filme> read() throws Exception {
-		return dao.read();
+	@Override
+	public Filme readById(final int id) throws Exception {
+		return dao.readById(id);
 	}
 
-	public void update(final Filme filme) throws Exception {
-		dao.update(filme);
+	@Override
+	public List<Filme> readAll() throws Exception {
+		return dao.readAll();
 	}
 
-	public void deleteById(final Integer idFilme) throws Exception {
-		dao.deleteById(idFilme);
+	@Override
+	public void update(final Filme obj) throws Exception {
+		dao.update(obj);
+	}
+
+	@Override
+	public void updateAll(final List<Filme> list) throws Exception {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void deleteById(final int id) throws Exception {
+		dao.deleteById(id);
+	}
+
+	@Override
+	public void deleteAllById(final int[] ids) throws Exception {
+		throw new UnsupportedOperationException();
 	}
 
 }

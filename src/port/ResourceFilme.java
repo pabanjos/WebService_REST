@@ -52,8 +52,7 @@ public class ResourceFilme extends BaseResource {
 			if ((filme == null) || (filme.getIdFilme() == null)) {
 				return pedidoRuim();
 			}
-			String json = gson.toJson(filme);
-			return sucesso(json);
+			return sucesso(filme);
 		} catch (Exception e) {
 			return erroNoServidor(e);
 		}
@@ -63,9 +62,8 @@ public class ResourceFilme extends BaseResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response read() {
 		try {
-			List<Filme> lista = servico.read();
-			String json = gson.toJson(lista);
-			return sucesso(json);
+			List<Filme> lista = servico.readAll();
+			return sucesso(lista);
 		} catch (Exception e) {
 			return erroNoServidor(e);
 		}
