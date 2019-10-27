@@ -9,6 +9,7 @@ import beans.Usuario;
 import dao.DaoCompra;
 import dao.DaoFilme;
 import dao.DaoUsuario;
+import dao.ICRUD;
 
 public class ServicoCompra implements ICRUD<Compra> {
 

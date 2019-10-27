@@ -1,53 +1,32 @@
 package port;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.time.LocalDateTime;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
-import servico.ServicoLogs;
+import beans.Log;
+import infra.LocalDateTimeAdapter;
+import servico.ServicoResposta;
 
 public class BaseResource {
 
-	protected final Gson gson = new Gson();
-	protected final Map<String, Object> dados = new HashMap<>();
+	protected Gson gson = new GsonBuilder() //
+			.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter().nullSafe()) //
+			.create();
 
 	protected BaseResource() {
 		super();
+		ServicoResposta.limpar();
 	}
 
 	protected Response sucesso() {
-		if (!ServicoLogs.getLogs().isEmpty()) {
-			String logs = gson.toJson(ServicoLogs.getLogs().get(0));
-			ServicoLogs.limpar();
-			return Response.ok(logs, MediaType.APPLICATION_JSON).build();
-		}
-		return Response.ok().build();
-	}
-
-	private Response sucesso(final String str) {
-		dados.put("dados", str);
-		if (!ServicoLogs.getLogs().isEmpty()) {
-			String logs = gson.toJson(ServicoLogs.getLogs().get(0));
-			ServicoLogs.limpar();
-			return Response.ok(logs, MediaType.APPLICATION_JSON).build();
-		}
-		String json = gson.toJson(dados);
-		return Response.ok(json, MediaType.APPLICATION_JSON).build();
-	}
-
-	protected Response sucesso(final Object obj) {
-		dados.put("dados", obj);
-		if (!ServicoLogs.getLogs().isEmpty()) {
-			dados.put("logs", ServicoLogs.getLogs().get(0));
-			ServicoLogs.limpar();
-		}
-		String json = gson.toJson(dados);
-		return Response.ok(json, MediaType.APPLICATION_JSON).build();
+		String dadosJSON = gson.toJson(ServicoResposta.build());
+		return Response.ok(dadosJSON, MediaType.APPLICATION_JSON).build();
 	}
 
 	protected Response criado() {
@@ -60,7 +39,9 @@ public class BaseResource {
 
 	protected Response erroNoServidor(final Exception e) {
 		e.printStackTrace();
-		return Response.serverError().build();
+		ServicoResposta.adicionarLog(Log.falha(e.getMessage()));
+		String dadosJSON = gson.toJson(ServicoResposta.build());
+		return Response.serverError().entity(dadosJSON).build();
 	}
 
 }

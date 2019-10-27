@@ -7,6 +7,7 @@ import beans.Operacao;
 import beans.Usuario;
 import dao.DaoOperacao;
 import dao.DaoUsuario;
+import dao.ICRUD;
 
 public class ServicoOperacao implements ICRUD<Operacao> {
 

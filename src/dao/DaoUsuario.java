@@ -3,7 +3,6 @@ package dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import app.ICRUD;
 import beans.Pessoa;
 import beans.Usuario;
 import infra.Constantes;
@@ -54,7 +53,7 @@ public class DaoUsuario extends Dao implements ICRUD<Usuario> {
 			pessoa.setSexo(rs.getString(9));
 			pessoa.setTelefone(rs.getString(10));
 			pessoa.setCep(rs.getString(11));
-			pessoa.setNascimento(rs.getDate(12).toLocalDate());
+			pessoa.setNascimento(rs.getTimestamp(12).toLocalDateTime());
 		}
 		fecharConexao();
 		return usuario;
@@ -82,7 +81,7 @@ public class DaoUsuario extends Dao implements ICRUD<Usuario> {
 			pessoa.setSexo(rs.getString(9));
 			pessoa.setTelefone(rs.getString(10));
 			pessoa.setCep(rs.getString(11));
-			pessoa.setNascimento(rs.getDate(12).toLocalDate());
+			pessoa.setNascimento(rs.getTimestamp(12).toLocalDateTime());
 			lista.add(usuario);
 		}
 		fecharConexao();
@@ -157,7 +156,7 @@ public class DaoUsuario extends Dao implements ICRUD<Usuario> {
 			pessoa.setSexo(rs.getString(9));
 			pessoa.setTelefone(rs.getString(10));
 			pessoa.setCep(rs.getString(11));
-			pessoa.setNascimento(rs.getDate(12).toLocalDate());
+			pessoa.setNascimento(rs.getTimestamp(12).toLocalDateTime());
 		}
 		fecharConexao();
 		return usuario;

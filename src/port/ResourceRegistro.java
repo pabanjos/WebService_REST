@@ -10,6 +10,7 @@ import javax.ws.rs.core.Response;
 
 import app.ServicoRegistro;
 import beans.Registro;
+import servico.ServicoResposta;
 
 @Path("/registros")
 public class ResourceRegistro extends BaseResource {
@@ -25,7 +26,8 @@ public class ResourceRegistro extends BaseResource {
 	public Response acessos() {
 		try {
 			List<Registro> lista = servico.readAll();
-			return sucesso(lista);
+			ServicoResposta.adicionarObjeto("lista", lista);
+			return sucesso();
 		} catch (Exception e) {
 			return erroNoServidor(e);
 		}

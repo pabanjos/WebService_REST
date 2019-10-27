@@ -3,8 +3,6 @@ package app;
 import java.util.List;
 import java.util.Objects;
 
-import javax.inject.Singleton;
-
 import beans.Compra;
 import beans.Filme;
 import beans.Log;
@@ -12,9 +10,9 @@ import beans.Usuario;
 import dao.DaoCompra;
 import dao.DaoFilme;
 import dao.DaoUsuario;
-import servico.ServicoLogs;
+import dao.ICRUD;
+import servico.ServicoResposta;
 
-@Singleton
 public class ServicoUsuario implements ICRUD<Usuario> {
 
 	private final ICRUD<Usuario> daoUsuario = new DaoUsuario();
@@ -48,6 +46,7 @@ public class ServicoUsuario implements ICRUD<Usuario> {
 	@Override
 	public void update(final Usuario obj) throws Exception {
 		daoUsuario.update(obj);
+		ServicoResposta.adicionarLog(Log.sucesso("usuário atualizado"));
 	}
 
 	@Override
@@ -58,6 +57,7 @@ public class ServicoUsuario implements ICRUD<Usuario> {
 	@Override
 	public void deleteById(final int id) throws Exception {
 		daoUsuario.deleteById(id);
+		ServicoResposta.adicionarLog(Log.sucesso("usuário deletado"));
 	}
 
 	@Override
@@ -65,19 +65,19 @@ public class ServicoUsuario implements ICRUD<Usuario> {
 		throw new UnsupportedOperationException();
 	}
 
-	public Usuario entrar(final Usuario usuario) throws Exception {
+	public void entrar(final Usuario usuario) throws Exception {
 		Usuario resultado = null;
-		if (Objects.isNull(usuario.getLogin()) || Objects.isNull(usuario.getSenha())) {
-			ServicoLogs.adicionar(Log.falha("dados inválidos"));
+		if (Objects.isNull(usuario) || Objects.isNull(usuario.getLogin()) || Objects.isNull(usuario.getSenha())) {
+			ServicoResposta.adicionarLog(Log.falha("dados inválidos"));
 		} else {
 			resultado = ((DaoUsuario) daoUsuario).entrar(usuario);
 			if (resultado == null) {
-				ServicoLogs.adicionar(Log.falha("login e senha não encontrados"));
+				ServicoResposta.adicionarLog(Log.falha("login e senha não encontrados"));
 			} else {
-				ServicoLogs.adicionar(Log.sucesso("logado com sucesso"));
+				ServicoResposta.adicionarObjeto("logado", resultado);
+				ServicoResposta.adicionarLog(Log.sucesso("usuário logado"));
 			}
 		}
-		return resultado;
 	}
 
 }

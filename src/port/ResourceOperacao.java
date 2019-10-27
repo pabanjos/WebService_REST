@@ -10,6 +10,7 @@ import javax.ws.rs.core.Response;
 
 import app.ServicoOperacao;
 import beans.Operacao;
+import servico.ServicoResposta;
 
 @Path("/operacoes")
 public class ResourceOperacao extends BaseResource {
@@ -25,7 +26,8 @@ public class ResourceOperacao extends BaseResource {
 	public Response operacoes() {
 		try {
 			List<Operacao> lista = servico.readAll();
-			return sucesso(lista);
+			ServicoResposta.adicionarObjeto("lista", lista);
+			return sucesso();
 		} catch (Exception e) {
 			return erroNoServidor(e);
 		}

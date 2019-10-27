@@ -10,6 +10,7 @@ import javax.ws.rs.core.Response;
 
 import app.ServicoMensagem;
 import beans.Mensagem;
+import servico.ServicoResposta;
 
 @Path("/mensagens")
 public class ResourceMensagem extends BaseResource {
@@ -25,7 +26,8 @@ public class ResourceMensagem extends BaseResource {
 	public Response mensagens() {
 		try {
 			List<Mensagem> lista = servico.readAll();
-			return sucesso(lista);
+			ServicoResposta.adicionarObjeto("lista", lista);
+			return sucesso();
 		} catch (Exception e) {
 			return erroNoServidor(e);
 		}

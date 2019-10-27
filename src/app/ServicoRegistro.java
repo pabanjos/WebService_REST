@@ -7,6 +7,7 @@ import beans.Registro;
 import beans.Usuario;
 import dao.DaoRegistro;
 import dao.DaoUsuario;
+import dao.ICRUD;
 
 public class ServicoRegistro implements ICRUD<Registro> {
 

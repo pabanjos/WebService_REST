@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response;
 
 import app.ServicoUsuario;
 import beans.Usuario;
+import servico.ServicoResposta;
 
 @Path("/usuarios")
 public class ResourceUsuario extends BaseResource {
@@ -49,8 +50,8 @@ public class ResourceUsuario extends BaseResource {
 				return pedidoRuim();
 			}
 			Usuario usuario = gson.fromJson(u, Usuario.class);
-			Usuario logado = servico.entrar(usuario);
-			return sucesso(logado);
+			servico.entrar(usuario);
+			return sucesso();
 		} catch (Exception e) {
 			return erroNoServidor(e);
 		}
@@ -67,8 +68,10 @@ public class ResourceUsuario extends BaseResource {
 			Usuario usuario = servico.readById(idUsuario);
 			if ((usuario == null) || (usuario.getIdUsuario() == null)) {
 				return pedidoRuim();
+			} else {
+				ServicoResposta.adicionarObjeto("usuario", usuario);
 			}
-			return sucesso(usuario);
+			return sucesso();
 		} catch (Exception e) {
 			return erroNoServidor(e);
 		}
@@ -79,7 +82,8 @@ public class ResourceUsuario extends BaseResource {
 	public Response read() {
 		try {
 			List<Usuario> lista = servico.readAll();
-			return sucesso(lista);
+			ServicoResposta.adicionarObjeto("lista", lista);
+			return sucesso();
 		} catch (Exception e) {
 			return erroNoServidor(e);
 		}

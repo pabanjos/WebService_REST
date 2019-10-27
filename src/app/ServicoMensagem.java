@@ -7,6 +7,7 @@ import beans.Mensagem;
 import beans.Usuario;
 import dao.DaoMensagem;
 import dao.DaoUsuario;
+import dao.ICRUD;
 
 public class ServicoMensagem implements ICRUD<Mensagem> {
 

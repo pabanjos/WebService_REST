@@ -4,6 +4,7 @@ import java.util.List;
 
 import beans.Filme;
 import dao.DaoFilme;
+import dao.ICRUD;
 
 public class ServicoFilme implements ICRUD<Filme> {
 

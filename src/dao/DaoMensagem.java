@@ -3,7 +3,6 @@ package dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import app.ICRUD;
 import beans.Mensagem;
 import beans.Usuario;
 import infra.Constantes;

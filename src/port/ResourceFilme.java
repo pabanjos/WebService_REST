@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response;
 
 import app.ServicoFilme;
 import beans.Filme;
+import servico.ServicoResposta;
 
 @Path("/filmes")
 public class ResourceFilme extends BaseResource {
@@ -51,8 +52,10 @@ public class ResourceFilme extends BaseResource {
 			Filme filme = servico.readById(idFilme);
 			if ((filme == null) || (filme.getIdFilme() == null)) {
 				return pedidoRuim();
+			} else {
+				ServicoResposta.adicionarObjeto("filme", filme);
 			}
-			return sucesso(filme);
+			return sucesso();
 		} catch (Exception e) {
 			return erroNoServidor(e);
 		}
@@ -63,7 +66,8 @@ public class ResourceFilme extends BaseResource {
 	public Response read() {
 		try {
 			List<Filme> lista = servico.readAll();
-			return sucesso(lista);
+			ServicoResposta.adicionarObjeto("lista", lista);
+			return sucesso();
 		} catch (Exception e) {
 			return erroNoServidor(e);
 		}

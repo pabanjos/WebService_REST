@@ -1,4 +1,4 @@
-package app;
+package dao;
 
 import java.util.List;
 

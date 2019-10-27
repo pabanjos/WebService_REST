@@ -10,6 +10,7 @@ import javax.ws.rs.core.Response;
 
 import app.ServicoCompra;
 import beans.Compra;
+import servico.ServicoResposta;
 
 @Path("/compras")
 public class ResourceCompra extends BaseResource {
@@ -25,7 +26,8 @@ public class ResourceCompra extends BaseResource {
 	public Response compras() {
 		try {
 			List<Compra> lista = servico.readAll();
-			return sucesso(lista);
+			ServicoResposta.adicionarObjeto("lista", lista);
+			return sucesso();
 		} catch (Exception e) {
 			return erroNoServidor(e);
 		}
