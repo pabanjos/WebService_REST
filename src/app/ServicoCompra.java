@@ -55,6 +55,10 @@ public class ServicoCompra implements ICRUD<Compra> {
 		return compras;
 	}
 
+	public List<Compra> obterComprasPendentesDoUsuario(final int idUsuario) throws Exception {
+		return ((DaoCompra) daoCompra).obterComprasPendentesDoUsuario(idUsuario);
+	}
+
 	@Override
 	public void update(final Compra obj) throws Exception {
 		throw new UnsupportedOperationException();

@@ -1,5 +1,6 @@
 package app;
 
+import java.net.InetAddress;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,6 +21,8 @@ public class ServicoRegistro implements ICRUD<Registro> {
 
 	@Override
 	public void create(final Registro obj) throws Exception {
+		obj.setNome(InetAddress.getLocalHost().getHostName());
+		obj.setIp(InetAddress.getLocalHost().getHostAddress());
 		daoRegistro.create(obj);
 	}
 

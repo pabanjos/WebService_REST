@@ -28,14 +28,13 @@ public class ResourceFilme extends BaseResource {
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response create(final String f) throws Exception {
+	public Response create(final Filme f) {
 		try {
 			if (f == null) {
 				return pedidoRuim();
 			}
-			Filme filme = gson.fromJson(f, Filme.class);
-			servico.create(filme);
-			return criado();
+			servico.create(f);
+			return sucesso();
 		} catch (Exception e) {
 			return erroNoServidor(e);
 		}
@@ -75,16 +74,12 @@ public class ResourceFilme extends BaseResource {
 
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response update(final String f) throws Exception {
+	public Response update(final Filme f) {
 		try {
-			if (f == null) {
+			if ((f == null) || (f.getIdFilme() == null)) {
 				return pedidoRuim();
 			}
-			Filme filme = gson.fromJson(f, Filme.class);
-			if ((filme == null) || (filme.getIdFilme() == null)) {
-				return pedidoRuim();
-			}
-			servico.update(filme);
+			servico.update(f);
 			return sucesso();
 		} catch (Exception e) {
 			return erroNoServidor(e);
@@ -93,7 +88,7 @@ public class ResourceFilme extends BaseResource {
 
 	@DELETE
 	@Path("/{idFilme}")
-	public Response deleteById(@PathParam("idFilme") final Integer idFilme) throws Exception {
+	public Response deleteById(@PathParam("idFilme") final Integer idFilme) {
 		try {
 			if (idFilme == null) {
 				return pedidoRuim();

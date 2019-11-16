@@ -1,14 +1,9 @@
 package app;
 
 import java.util.List;
-import java.util.Objects;
 
-import beans.Compra;
-import beans.Filme;
 import beans.Log;
 import beans.Usuario;
-import dao.DaoCompra;
-import dao.DaoFilme;
 import dao.DaoUsuario;
 import dao.ICRUD;
 import servico.ServicoResposta;
@@ -16,8 +11,6 @@ import servico.ServicoResposta;
 public class ServicoUsuario implements ICRUD<Usuario> {
 
 	private final ICRUD<Usuario> daoUsuario = new DaoUsuario();
-	private final ICRUD<Compra> daoCompra = new DaoCompra();
-	private final ICRUD<Filme> daoFilme = new DaoFilme();
 
 	public ServicoUsuario() {
 		super();
@@ -25,7 +18,12 @@ public class ServicoUsuario implements ICRUD<Usuario> {
 
 	@Override
 	public void create(final Usuario obj) throws Exception {
-		daoUsuario.create(obj);
+		Usuario usuarioBase = ((DaoUsuario) daoUsuario).readBylogin(obj.getLogin());
+		if (usuarioBase != null) {
+			ServicoResposta.adicionarLog(Log.falha("login já cadastrado."));
+		} else {
+			daoUsuario.create(obj);
+		}
 	}
 
 	@Override
@@ -46,7 +44,7 @@ public class ServicoUsuario implements ICRUD<Usuario> {
 	@Override
 	public void update(final Usuario obj) throws Exception {
 		daoUsuario.update(obj);
-		ServicoResposta.adicionarLog(Log.sucesso("usuário atualizado"));
+		ServicoResposta.adicionarLog(Log.sucesso("usuário atualizado."));
 	}
 
 	@Override
@@ -57,7 +55,7 @@ public class ServicoUsuario implements ICRUD<Usuario> {
 	@Override
 	public void deleteById(final int id) throws Exception {
 		daoUsuario.deleteById(id);
-		ServicoResposta.adicionarLog(Log.sucesso("usuário deletado"));
+		ServicoResposta.adicionarLog(Log.sucesso("usuário deletado."));
 	}
 
 	@Override
@@ -65,19 +63,20 @@ public class ServicoUsuario implements ICRUD<Usuario> {
 		throw new UnsupportedOperationException();
 	}
 
-	public void entrar(final Usuario usuario) throws Exception {
-		Usuario resultado = null;
-		if (Objects.isNull(usuario) || Objects.isNull(usuario.getLogin()) || Objects.isNull(usuario.getSenha())) {
-			ServicoResposta.adicionarLog(Log.falha("dados inválidos"));
+	public void entrar(final Usuario u) throws Exception {
+		Usuario usuario = ((DaoUsuario) daoUsuario).entrar(u);
+		if (usuario == null) {
+			ServicoResposta.adicionarLog(Log.falha("login e senha não encontrados."));
 		} else {
-			resultado = ((DaoUsuario) daoUsuario).entrar(usuario);
-			if (resultado == null) {
-				ServicoResposta.adicionarLog(Log.falha("login e senha não encontrados"));
-			} else {
-				ServicoResposta.adicionarObjeto("logado", resultado);
-				ServicoResposta.adicionarLog(Log.sucesso("usuário logado"));
-			}
+			Controle.setLOGADO(usuario);
+			ServicoResposta.adicionarObjeto("logado", usuario);
+			ServicoResposta.adicionarLog(Log.sucesso("usuário logado."));
 		}
+	}
+
+	public void sair(final Usuario u) throws Exception {
+		Controle.deslogar(u);
+		ServicoResposta.adicionarLog(Log.falha("logout efetuado."));
 	}
 
 }

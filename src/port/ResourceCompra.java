@@ -23,7 +23,7 @@ public class ResourceCompra extends BaseResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response compras() {
+	public Response read() {
 		try {
 			List<Compra> lista = servico.readAll();
 			ServicoResposta.adicionarObjeto("lista", lista);

@@ -23,7 +23,7 @@ public class ResourceOperacao extends BaseResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response operacoes() {
+	public Response read() {
 		try {
 			List<Operacao> lista = servico.readAll();
 			ServicoResposta.adicionarObjeto("lista", lista);

@@ -23,7 +23,7 @@ public class ResourceMensagem extends BaseResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response mensagens() {
+	public Response read() {
 		try {
 			List<Mensagem> lista = servico.readAll();
 			ServicoResposta.adicionarObjeto("lista", lista);

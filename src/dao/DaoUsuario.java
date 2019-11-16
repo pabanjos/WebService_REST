@@ -31,6 +31,33 @@ public class DaoUsuario extends Dao implements ICRUD<Usuario> {
 		throw new UnsupportedOperationException();
 	}
 
+	public Usuario readBylogin(final String login) throws Exception {
+		Usuario usuario = null;
+		abrirConexao(Constantes.BANCO);
+		String syntax1 = "SELECT * FROM usuario u ";
+		String syntax2 = "INNER JOIN pessoa p ON u.idUsuario = p.usuario WHERE u.login=" + login;
+		ps = con.prepareStatement(syntax1 + syntax2);
+		rs = ps.executeQuery();
+		while (rs.next()) {
+			usuario = new Usuario();
+			usuario.setIdUsuario(rs.getInt(1));
+			usuario.setLogin(rs.getString(2));
+			usuario.setSenha(rs.getString(3));
+			usuario.setPerfil(rs.getString(4));
+			usuario.setSaldo(rs.getInt(5));
+			Pessoa pessoa = usuario.getPessoa();
+			pessoa.setIdPessoa(rs.getInt(6));
+			pessoa.setNome(rs.getString(7));
+			pessoa.setEmail(rs.getString(8));
+			pessoa.setSexo(rs.getString(9));
+			pessoa.setTelefone(rs.getString(10));
+			pessoa.setCep(rs.getString(11));
+			pessoa.setNascimento(rs.getTimestamp(12).toLocalDateTime());
+		}
+		fecharConexao();
+		return usuario;
+	}
+
 	@Override
 	public Usuario readById(final int idUsuario) throws Exception {
 		Usuario usuario = null;

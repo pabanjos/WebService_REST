@@ -57,6 +57,25 @@ public class DaoCompra extends Dao implements ICRUD<Compra> {
 		return lista;
 	}
 
+	public List<Compra> obterComprasPendentesDoUsuario(final int idUsuario) throws Exception {
+		List<Compra> lista = new ArrayList<>();
+		abrirConexao(Constantes.BANCO);
+		ps = con.prepareStatement("SELECT * FROM compra WHERE comprado='N' and usuario=" + idUsuario);
+		rs = ps.executeQuery();
+		while (rs.next()) {
+			Compra compra = new Compra();
+			compra.setIdCompra(rs.getInt(1));
+			compra.setQuantidade(rs.getInt(2));
+			compra.setStatus(rs.getString(3));
+			compra.setData(rs.getTimestamp(4).toLocalDateTime());
+			compra.getUsuario().setIdUsuario(rs.getInt(5));
+			compra.getFilme().setIdFilme(rs.getInt(6));
+			lista.add(compra);
+		}
+		fecharConexao();
+		return lista;
+	}
+
 	@Override
 	public void update(final Compra obj) throws Exception {
 		throw new UnsupportedOperationException();
