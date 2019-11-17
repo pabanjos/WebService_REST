@@ -10,7 +10,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
-import app.Controle;
+import app.CacheUsuario;
 import app.ServicoUsuario;
 import beans.Log;
 import beans.Usuario;
@@ -129,7 +129,7 @@ public class ResourceUsuario extends BaseResource {
 	@Path("/logados")
 	public Response logados() {
 		try {
-			ServicoResposta.adicionarObjeto("logados", Controle.getLISTA());
+			ServicoResposta.adicionarObjeto("logados", CacheUsuario.getLISTA());
 			return sucesso();
 		} catch (Exception e) {
 			return erroNoServidor(e);

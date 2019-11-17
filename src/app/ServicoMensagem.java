@@ -18,9 +18,14 @@ public class ServicoMensagem implements ICRUD<Mensagem> {
 		super();
 	}
 
-	private String censurar(final String texto) {
-		return texto.replace("\n", " ").replace("caralho", "c******").replace("porra", "p****")
-				.replace("fuder", "f****").replace("puta", "p***").replace("vsf", "v**").replace("fdp", "f**");
+	public String censurar(final String texto) {
+		return texto.replace("\n", " ")//
+				.replace("caralho", "c******")//
+				.replace("porra", "p****")//
+				.replace("fuder", "f****")//
+				.replace("puta", "p***")//
+				.replace("vsf", "v**")//
+				.replace("fdp", "f**");
 	}
 
 	@Override

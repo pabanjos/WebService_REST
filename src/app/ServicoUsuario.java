@@ -68,14 +68,14 @@ public class ServicoUsuario implements ICRUD<Usuario> {
 		if (usuario == null) {
 			ServicoResposta.adicionarLog(Log.falha("login e senha não encontrados."));
 		} else {
-			Controle.setLOGADO(usuario);
+			CacheUsuario.setLOGADO(usuario);
 			ServicoResposta.adicionarObjeto("logado", usuario);
 			ServicoResposta.adicionarLog(Log.sucesso("usuário logado."));
 		}
 	}
 
 	public void sair(final Usuario u) throws Exception {
-		Controle.deslogar(u);
+		CacheUsuario.deslogar(u);
 		ServicoResposta.adicionarLog(Log.falha("logout efetuado."));
 	}
 

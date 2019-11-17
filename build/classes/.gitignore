@@ -1,1 +1,4 @@
 /app/
+/dao/
+/infra/
+/port/

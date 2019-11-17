@@ -7,7 +7,7 @@ import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
-import app.Controle;
+import app.CacheUsuario;
 import beans.Usuario;
 
 @Provider
@@ -22,7 +22,7 @@ public class FiltroRequest implements ContainerRequestFilter {
 			if (login == null) {
 				ctx.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
 			} else {
-				Usuario logado = Controle.getLOGADO();
+				Usuario logado = CacheUsuario.getLOGADO();
 				if (logado == null) {
 					ctx.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
 				} else if (!login.equals(logado.getLogin())) {

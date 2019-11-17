@@ -1,5 +1,7 @@
 package dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,14 +16,30 @@ public class DaoUsuario extends Dao implements ICRUD<Usuario> {
 		super();
 	}
 
+	private Usuario novoUsuario(final ResultSet rs) throws SQLException {
+		Usuario usuario = new Usuario();
+		usuario.setIdUsuario(rs.getInt(1));
+		usuario.setLogin(rs.getString(2));
+		usuario.setSenha(rs.getString(3));
+		usuario.setPerfil(rs.getString(4));
+		Pessoa pessoa = usuario.getPessoa();
+		pessoa.setIdPessoa(rs.getInt(5));
+		pessoa.setNome(rs.getString(6));
+		pessoa.setEmail(rs.getString(7));
+		pessoa.setSexo(rs.getString(8));
+		pessoa.setTelefone(rs.getString(9));
+		pessoa.setCep(rs.getString(10));
+		pessoa.setNascimento(rs.getTimestamp(11).toLocalDateTime());
+		return usuario;
+	}
+
 	@Override
 	public void create(final Usuario usuario) throws Exception {
 		abrirConexao(Constantes.BANCO);
-		ps = con.prepareStatement("INSERT INTO usuario VALUES (null, ?, ?, ?, ?)");
+		ps = con.prepareStatement("INSERT INTO usuario VALUES (null, ?, ?, ?)");
 		ps.setString(1, usuario.getLogin());
 		ps.setString(2, usuario.getSenha());
 		ps.setString(3, usuario.getPerfil());
-		ps.setDouble(4, usuario.getSaldo());
 		ps.execute();
 		fecharConexao();
 	}
@@ -39,20 +57,7 @@ public class DaoUsuario extends Dao implements ICRUD<Usuario> {
 		ps = con.prepareStatement(syntax1 + syntax2);
 		rs = ps.executeQuery();
 		while (rs.next()) {
-			usuario = new Usuario();
-			usuario.setIdUsuario(rs.getInt(1));
-			usuario.setLogin(rs.getString(2));
-			usuario.setSenha(rs.getString(3));
-			usuario.setPerfil(rs.getString(4));
-			usuario.setSaldo(rs.getInt(5));
-			Pessoa pessoa = usuario.getPessoa();
-			pessoa.setIdPessoa(rs.getInt(6));
-			pessoa.setNome(rs.getString(7));
-			pessoa.setEmail(rs.getString(8));
-			pessoa.setSexo(rs.getString(9));
-			pessoa.setTelefone(rs.getString(10));
-			pessoa.setCep(rs.getString(11));
-			pessoa.setNascimento(rs.getTimestamp(12).toLocalDateTime());
+			usuario = novoUsuario(rs);
 		}
 		fecharConexao();
 		return usuario;
@@ -67,20 +72,7 @@ public class DaoUsuario extends Dao implements ICRUD<Usuario> {
 		ps = con.prepareStatement(syntax1 + syntax2);
 		rs = ps.executeQuery();
 		while (rs.next()) {
-			usuario = new Usuario();
-			usuario.setIdUsuario(rs.getInt(1));
-			usuario.setLogin(rs.getString(2));
-			usuario.setSenha(rs.getString(3));
-			usuario.setPerfil(rs.getString(4));
-			usuario.setSaldo(rs.getInt(5));
-			Pessoa pessoa = usuario.getPessoa();
-			pessoa.setIdPessoa(rs.getInt(6));
-			pessoa.setNome(rs.getString(7));
-			pessoa.setEmail(rs.getString(8));
-			pessoa.setSexo(rs.getString(9));
-			pessoa.setTelefone(rs.getString(10));
-			pessoa.setCep(rs.getString(11));
-			pessoa.setNascimento(rs.getTimestamp(12).toLocalDateTime());
+			usuario = novoUsuario(rs);
 		}
 		fecharConexao();
 		return usuario;
@@ -95,20 +87,7 @@ public class DaoUsuario extends Dao implements ICRUD<Usuario> {
 		ps = con.prepareStatement(syntax1 + syntax2);
 		rs = ps.executeQuery();
 		while (rs.next()) {
-			Usuario usuario = new Usuario();
-			usuario.setIdUsuario(rs.getInt(1));
-			usuario.setLogin(rs.getString(2));
-			usuario.setSenha(rs.getString(3));
-			usuario.setPerfil(rs.getString(4));
-			usuario.setSaldo(rs.getInt(5));
-			Pessoa pessoa = usuario.getPessoa();
-			pessoa.setIdPessoa(rs.getInt(6));
-			pessoa.setNome(rs.getString(7));
-			pessoa.setEmail(rs.getString(8));
-			pessoa.setSexo(rs.getString(9));
-			pessoa.setTelefone(rs.getString(10));
-			pessoa.setCep(rs.getString(11));
-			pessoa.setNascimento(rs.getTimestamp(12).toLocalDateTime());
+			Usuario usuario = novoUsuario(rs);
 			lista.add(usuario);
 		}
 		fecharConexao();
@@ -118,12 +97,10 @@ public class DaoUsuario extends Dao implements ICRUD<Usuario> {
 	@Override
 	public void update(final Usuario u) throws Exception {
 		abrirConexao(Constantes.BANCO);
-		ps = con.prepareStatement(
-				"UPDATE usuario SET login=?, senha=?, perfil=?, saldo=? WHERE idUsuario=" + u.getIdUsuario());
+		ps = con.prepareStatement("UPDATE usuario SET login=?, senha=?, perfil=? WHERE idUsuario=" + u.getIdUsuario());
 		ps.setString(1, u.getLogin());
 		ps.setString(2, u.getSenha());
 		ps.setString(3, u.getPerfil());
-		ps.setInt(4, u.getSaldo());
 		ps.execute();
 		ps.close();
 		ps = con.prepareStatement(
@@ -170,20 +147,7 @@ public class DaoUsuario extends Dao implements ICRUD<Usuario> {
 		ps.setString(2, u.getSenha());
 		rs = ps.executeQuery();
 		while (rs.next()) {
-			usuario = new Usuario();
-			usuario.setIdUsuario(rs.getInt(1));
-			usuario.setLogin(rs.getString(2));
-			usuario.setSenha(rs.getString(3));
-			usuario.setPerfil(rs.getString(4));
-			usuario.setSaldo(rs.getInt(5));
-			Pessoa pessoa = usuario.getPessoa();
-			pessoa.setIdPessoa(rs.getInt(6));
-			pessoa.setNome(rs.getString(7));
-			pessoa.setEmail(rs.getString(8));
-			pessoa.setSexo(rs.getString(9));
-			pessoa.setTelefone(rs.getString(10));
-			pessoa.setCep(rs.getString(11));
-			pessoa.setNascimento(rs.getTimestamp(12).toLocalDateTime());
+			usuario = novoUsuario(rs);
 		}
 		fecharConexao();
 		return usuario;

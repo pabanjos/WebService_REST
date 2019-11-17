@@ -1,16 +1,17 @@
 package app;
 
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
+import beans.Carrinho;
 import beans.Compra;
+import beans.Filme;
+import beans.Log;
+import servico.ServicoResposta;
 
 public class ControleCarrinho {
 
 	private final ServicoCompra servicoCompra = new ServicoCompra();
-	private Map<Integer, Compra> carrinho = null;
+	private final Carrinho carrinho = new Carrinho();
 
 	public ControleCarrinho() {
 		super();
@@ -19,15 +20,39 @@ public class ControleCarrinho {
 
 	private void montarCarrinho() {
 		try {
-			if (carrinho == null) {
-				Integer idUsuario = Controle.getLOGADO().getIdUsuario();
-				List<Compra> lista = servicoCompra.obterComprasPendentesDoUsuario(idUsuario);
-				carrinho = lista.stream().collect(//
-						Collectors.toMap(c -> c.getFilme().getIdFilme(), Function.identity()));
-			}
+			Integer idUsuario = CacheUsuario.getLOGADO().getIdUsuario();
+			List<Compra> compras = servicoCompra.obterComprasPendentesDoUsuario(idUsuario);
+			carrinho.setCompras(compras);
 		} catch (Exception e) {
+			ServicoResposta.adicionarLog(Log.falha("falha ao montar carrinho."));
 			e.printStackTrace();
 		}
+	}
+
+	public void adicionar(final Filme filme) {
+		Integer idFilme = filme.getIdFilme();
+		if (carrinho.contem(idFilme)) {
+			Compra itemCarrinho = carrinho.obter(idFilme);
+			itemCarrinho.setQuantidade(itemCarrinho.getQuantidade() + 1);
+		} else {
+			Compra compra = new Compra();
+			compra.setFilme(filme);
+			compra.setQuantidade(1);
+			compra.setUsuario(CacheUsuario.getLOGADO());
+			carrinho.getCompras().add(compra);
+		}
+		carrinho.calcular();
+	}
+
+	public void remover(final Filme filme) {
+		Integer idFilme = filme.getIdFilme();
+		Compra itemCarrinho = carrinho.obter(idFilme);
+		if (itemCarrinho.getQuantidade() > 1) {
+			itemCarrinho.setQuantidade(itemCarrinho.getQuantidade() - 1);
+		} else {
+			carrinho.getCompras().remove(itemCarrinho);
+		}
+		carrinho.calcular();
 	}
 
 }
