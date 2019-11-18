@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response;
 
 import app.ServicoFilme;
 import beans.Filme;
+import beans.Log;
 import servico.ServicoResposta;
 
 @Path("/filmes")
@@ -33,7 +34,7 @@ public class ResourceFilme extends BaseResource {
 			if (f == null) {
 				return pedidoRuim();
 			}
-			servico.create(f);
+			servico.criar(f);
 			return sucesso();
 		} catch (Exception e) {
 			return erroNoServidor(e);
@@ -48,9 +49,9 @@ public class ResourceFilme extends BaseResource {
 			if (idFilme == null) {
 				return pedidoRuim();
 			}
-			Filme filme = servico.readById(idFilme);
-			if ((filme == null) || (filme.getIdFilme() == null)) {
-				return pedidoRuim();
+			Filme filme = servico.buscarPorId(idFilme);
+			if (filme == null) {
+				ServicoResposta.adicionarLog(Log.falha("não encontrado."));
 			} else {
 				ServicoResposta.adicionarObjeto("filme", filme);
 			}
@@ -64,7 +65,7 @@ public class ResourceFilme extends BaseResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response read() {
 		try {
-			List<Filme> lista = servico.readAll();
+			List<Filme> lista = servico.buscarTodos();
 			ServicoResposta.adicionarObjeto("lista", lista);
 			return sucesso();
 		} catch (Exception e) {
@@ -79,7 +80,7 @@ public class ResourceFilme extends BaseResource {
 			if ((f == null) || (f.getIdFilme() == null)) {
 				return pedidoRuim();
 			}
-			servico.update(f);
+			servico.alterar(f);
 			return sucesso();
 		} catch (Exception e) {
 			return erroNoServidor(e);
@@ -93,7 +94,7 @@ public class ResourceFilme extends BaseResource {
 			if (idFilme == null) {
 				return pedidoRuim();
 			}
-			servico.deleteById(idFilme);
+			servico.deletarPorId(idFilme);
 			return sucesso();
 		} catch (Exception e) {
 			return erroNoServidor(e);

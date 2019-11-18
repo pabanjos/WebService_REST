@@ -5,6 +5,7 @@ import java.util.List;
 
 import beans.Compra;
 import infra.Constantes;
+import infra.ICRUD;
 import utils.Dao;
 
 public class DaoCompra extends Dao implements ICRUD<Compra> {
@@ -14,12 +15,12 @@ public class DaoCompra extends Dao implements ICRUD<Compra> {
 	}
 
 	@Override
-	public void create(final Compra obj) throws Exception {
+	public void criar(final Compra obj) throws Exception {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void createAll(final List<Compra> compras) throws Exception {
+	public void criarTodos(final List<Compra> compras) throws Exception {
 		abrirConexao(Constantes.BANCO);
 		ps = con.prepareStatement("INSERT INTO compra VALUES (NULL,?,?,now(),?,?)");
 		for (Compra compra : compras) {
@@ -33,12 +34,12 @@ public class DaoCompra extends Dao implements ICRUD<Compra> {
 	}
 
 	@Override
-	public Compra readById(final int id) throws Exception {
-		return null;
+	public Compra buscarPorId(final int id) throws Exception {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public List<Compra> readAll() throws Exception {
+	public List<Compra> buscarTodos() throws Exception {
 		List<Compra> lista = new ArrayList<>();
 		abrirConexao(Constantes.BANCO);
 		ps = con.prepareStatement("SELECT * FROM compra");
@@ -77,17 +78,17 @@ public class DaoCompra extends Dao implements ICRUD<Compra> {
 	}
 
 	@Override
-	public void update(final Compra obj) throws Exception {
+	public void alterar(final Compra obj) throws Exception {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void updateAll(final List<Compra> list) throws Exception {
+	public void alterarTodos(final List<Compra> list) throws Exception {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void deleteById(final int id) throws Exception {
+	public void deletarPorId(final int id) throws Exception {
 		abrirConexao(Constantes.BANCO);
 		ps = con.prepareStatement("DELETE FROM compra WHERE idCompra=" + id);
 		ps.execute();
@@ -95,7 +96,7 @@ public class DaoCompra extends Dao implements ICRUD<Compra> {
 	}
 
 	@Override
-	public void deleteAllById(final int[] ids) throws Exception {
+	public void deletarTodosPorIds(final int[] ids) throws Exception {
 		abrirConexao(Constantes.BANCO);
 		for (int id : ids) {
 			ps = con.prepareStatement("DELETE FROM compra WHERE idCompra=" + id);

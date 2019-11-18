@@ -7,7 +7,7 @@ import beans.Mensagem;
 import beans.Usuario;
 import dao.DaoMensagem;
 import dao.DaoUsuario;
-import dao.ICRUD;
+import infra.ICRUD;
 
 public class ServicoMensagem implements ICRUD<Mensagem> {
 
@@ -29,21 +29,21 @@ public class ServicoMensagem implements ICRUD<Mensagem> {
 	}
 
 	@Override
-	public void create(final Mensagem obj) throws Exception {
-		daoMensagem.create(obj);
+	public void criar(final Mensagem obj) throws Exception {
+		daoMensagem.criar(obj);
 	}
 
 	@Override
-	public void createAll(final List<Mensagem> list) throws Exception {
+	public void criarTodos(final List<Mensagem> list) throws Exception {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Mensagem readById(final int id) throws Exception {
-		Mensagem mensagem = daoMensagem.readById(id);
+	public Mensagem buscarPorId(final int id) throws Exception {
+		Mensagem mensagem = daoMensagem.buscarPorId(id);
 		if (Objects.nonNull(mensagem)) {
-			Usuario remetente = daoUsuario.readById(mensagem.getRemetente().getIdUsuario());
-			Usuario destinatario = daoUsuario.readById(mensagem.getDestinatario().getIdUsuario());
+			Usuario remetente = daoUsuario.buscarPorId(mensagem.getRemetente().getIdUsuario());
+			Usuario destinatario = daoUsuario.buscarPorId(mensagem.getDestinatario().getIdUsuario());
 			mensagem.setRemetente(remetente);
 			mensagem.setDestinatario(destinatario);
 		}
@@ -51,11 +51,11 @@ public class ServicoMensagem implements ICRUD<Mensagem> {
 	}
 
 	@Override
-	public List<Mensagem> readAll() throws Exception {
-		List<Mensagem> mensagens = daoMensagem.readAll();
+	public List<Mensagem> buscarTodos() throws Exception {
+		List<Mensagem> mensagens = daoMensagem.buscarTodos();
 		for (Mensagem mensagem : mensagens) {
-			Usuario remetente = daoUsuario.readById(mensagem.getRemetente().getIdUsuario());
-			Usuario destinatario = daoUsuario.readById(mensagem.getDestinatario().getIdUsuario());
+			Usuario remetente = daoUsuario.buscarPorId(mensagem.getRemetente().getIdUsuario());
+			Usuario destinatario = daoUsuario.buscarPorId(mensagem.getDestinatario().getIdUsuario());
 			mensagem.setRemetente(remetente);
 			mensagem.setDestinatario(destinatario);
 		}
@@ -63,22 +63,22 @@ public class ServicoMensagem implements ICRUD<Mensagem> {
 	}
 
 	@Override
-	public void update(final Mensagem obj) throws Exception {
-		daoMensagem.update(obj);
+	public void alterar(final Mensagem obj) throws Exception {
+		daoMensagem.alterar(obj);
 	}
 
 	@Override
-	public void updateAll(final List<Mensagem> list) throws Exception {
+	public void alterarTodos(final List<Mensagem> list) throws Exception {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void deleteById(final int id) throws Exception {
-		daoMensagem.deleteById(id);
+	public void deletarPorId(final int id) throws Exception {
+		daoMensagem.deletarPorId(id);
 	}
 
 	@Override
-	public void deleteAllById(final int[] ids) throws Exception {
+	public void deletarTodosPorIds(final int[] ids) throws Exception {
 		throw new UnsupportedOperationException();
 	}
 

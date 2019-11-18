@@ -6,6 +6,7 @@ import java.util.List;
 import beans.Mensagem;
 import beans.Usuario;
 import infra.Constantes;
+import infra.ICRUD;
 import utils.Dao;
 
 public class DaoMensagem extends Dao implements ICRUD<Mensagem> {
@@ -15,7 +16,7 @@ public class DaoMensagem extends Dao implements ICRUD<Mensagem> {
 	}
 
 	@Override
-	public void create(final Mensagem mensagem) throws Exception {
+	public void criar(final Mensagem mensagem) throws Exception {
 		abrirConexao(Constantes.BANCO);
 		ps = con.prepareStatement("INSERT INTO mensagem VALUES (NULL,?,now(),'N',?,?)");
 		ps.setString(1, mensagem.getTexto());
@@ -26,17 +27,17 @@ public class DaoMensagem extends Dao implements ICRUD<Mensagem> {
 	}
 
 	@Override
-	public void createAll(final List<Mensagem> list) throws Exception {
+	public void criarTodos(final List<Mensagem> list) throws Exception {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Mensagem readById(final int id) throws Exception {
+	public Mensagem buscarPorId(final int id) throws Exception {
 		return null;
 	}
 
 	@Override
-	public List<Mensagem> readAll() throws Exception {
+	public List<Mensagem> buscarTodos() throws Exception {
 		List<Mensagem> lista = new ArrayList<>();
 		abrirConexao(Constantes.BANCO);
 		ps = con.prepareStatement("SELECT * FROM mensagem");
@@ -80,7 +81,7 @@ public class DaoMensagem extends Dao implements ICRUD<Mensagem> {
 	}
 
 	@Override
-	public void update(final Mensagem mensagem) throws Exception {
+	public void alterar(final Mensagem mensagem) throws Exception {
 		abrirConexao(Constantes.BANCO);
 		ps = con.prepareStatement("UPDATE mensagem SET visualizada='S' WHERE remetente=? AND destinatario=?");
 		ps.setInt(1, mensagem.getRemetente().getIdUsuario());
@@ -90,12 +91,12 @@ public class DaoMensagem extends Dao implements ICRUD<Mensagem> {
 	}
 
 	@Override
-	public void updateAll(final List<Mensagem> list) throws Exception {
+	public void alterarTodos(final List<Mensagem> list) throws Exception {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void deleteById(final int id) throws Exception {
+	public void deletarPorId(final int id) throws Exception {
 		abrirConexao(Constantes.BANCO);
 		ps = con.prepareStatement("DELETE FROM mensagem WHERE idMensagem=" + id);
 		ps.execute();
@@ -103,7 +104,7 @@ public class DaoMensagem extends Dao implements ICRUD<Mensagem> {
 	}
 
 	@Override
-	public void deleteAllById(final int[] ids) throws Exception {
+	public void deletarTodosPorIds(final int[] ids) throws Exception {
 		abrirConexao(Constantes.BANCO);
 		for (int id : ids) {
 			ps = con.prepareStatement("DELETE FROM mensagem WHERE idMensagem=" + id);

@@ -25,7 +25,7 @@ public class ResourceRegistro extends BaseResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response read() {
 		try {
-			List<Registro> lista = servico.readAll();
+			List<Registro> lista = servico.buscarTodos();
 			ServicoResposta.adicionarObjeto("lista", lista);
 			return sucesso();
 		} catch (Exception e) {

@@ -9,7 +9,7 @@ import beans.Usuario;
 import dao.DaoCompra;
 import dao.DaoFilme;
 import dao.DaoUsuario;
-import dao.ICRUD;
+import infra.ICRUD;
 
 public class ServicoCompra implements ICRUD<Compra> {
 
@@ -22,21 +22,21 @@ public class ServicoCompra implements ICRUD<Compra> {
 	}
 
 	@Override
-	public void create(final Compra obj) throws Exception {
-		daoCompra.create(obj);
+	public void criar(final Compra obj) throws Exception {
+		daoCompra.criar(obj);
 	}
 
 	@Override
-	public void createAll(final List<Compra> list) throws Exception {
-		daoCompra.createAll(list);
+	public void criarTodos(final List<Compra> list) throws Exception {
+		daoCompra.criarTodos(list);
 	}
 
 	@Override
-	public Compra readById(final int id) throws Exception {
-		Compra compra = daoCompra.readById(id);
+	public Compra buscarPorId(final int id) throws Exception {
+		Compra compra = daoCompra.buscarPorId(id);
 		if (Objects.nonNull(compra)) {
-			Usuario usuario = daoUsuario.readById(compra.getUsuario().getIdUsuario());
-			Filme filme = daoFilme.readById(compra.getFilme().getIdFilme());
+			Usuario usuario = daoUsuario.buscarPorId(compra.getUsuario().getIdUsuario());
+			Filme filme = daoFilme.buscarPorId(compra.getFilme().getIdFilme());
 			compra.setUsuario(usuario);
 			compra.setFilme(filme);
 		}
@@ -44,11 +44,11 @@ public class ServicoCompra implements ICRUD<Compra> {
 	}
 
 	@Override
-	public List<Compra> readAll() throws Exception {
-		List<Compra> compras = daoCompra.readAll();
+	public List<Compra> buscarTodos() throws Exception {
+		List<Compra> compras = daoCompra.buscarTodos();
 		for (Compra compra : compras) {
-			Usuario usuario = daoUsuario.readById(compra.getUsuario().getIdUsuario());
-			Filme filme = daoFilme.readById(compra.getFilme().getIdFilme());
+			Usuario usuario = daoUsuario.buscarPorId(compra.getUsuario().getIdUsuario());
+			Filme filme = daoFilme.buscarPorId(compra.getFilme().getIdFilme());
 			compra.setUsuario(usuario);
 			compra.setFilme(filme);
 		}
@@ -60,22 +60,22 @@ public class ServicoCompra implements ICRUD<Compra> {
 	}
 
 	@Override
-	public void update(final Compra obj) throws Exception {
+	public void alterar(final Compra obj) throws Exception {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void updateAll(final List<Compra> list) throws Exception {
+	public void alterarTodos(final List<Compra> list) throws Exception {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void deleteById(final int id) throws Exception {
+	public void deletarPorId(final int id) throws Exception {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void deleteAllById(final int[] ids) throws Exception {
+	public void deletarTodosPorIds(final int[] ids) throws Exception {
 		throw new UnsupportedOperationException();
 	}
 

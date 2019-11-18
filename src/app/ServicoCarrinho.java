@@ -8,29 +8,30 @@ import beans.Filme;
 import beans.Log;
 import servico.ServicoResposta;
 
-public class ControleCarrinho {
+public class ServicoCarrinho {
 
 	private final ServicoCompra servicoCompra = new ServicoCompra();
 	private final Carrinho carrinho = new Carrinho();
 
-	public ControleCarrinho() {
+	public ServicoCarrinho() {
 		super();
-		montarCarrinho();
 	}
 
-	private void montarCarrinho() {
+	public Carrinho obter() {
 		try {
 			Integer idUsuario = CacheUsuario.getLOGADO().getIdUsuario();
 			List<Compra> compras = servicoCompra.obterComprasPendentesDoUsuario(idUsuario);
 			carrinho.setCompras(compras);
+			carrinho.calcular();
 		} catch (Exception e) {
 			ServicoResposta.adicionarLog(Log.falha("falha ao montar carrinho."));
 			e.printStackTrace();
 		}
+		return carrinho;
 	}
 
-	public void adicionar(final Filme filme) {
-		Integer idFilme = filme.getIdFilme();
+	public Carrinho adicionar(final Filme filme) {
+		int idFilme = filme.getIdFilme();
 		if (carrinho.contem(idFilme)) {
 			Compra itemCarrinho = carrinho.obter(idFilme);
 			itemCarrinho.setQuantidade(itemCarrinho.getQuantidade() + 1);
@@ -42,10 +43,11 @@ public class ControleCarrinho {
 			carrinho.getCompras().add(compra);
 		}
 		carrinho.calcular();
+		return carrinho;
 	}
 
-	public void remover(final Filme filme) {
-		Integer idFilme = filme.getIdFilme();
+	public Carrinho remover(final Filme filme) {
+		int idFilme = filme.getIdFilme();
 		Compra itemCarrinho = carrinho.obter(idFilme);
 		if (itemCarrinho.getQuantidade() > 1) {
 			itemCarrinho.setQuantidade(itemCarrinho.getQuantidade() - 1);
@@ -53,6 +55,7 @@ public class ControleCarrinho {
 			carrinho.getCompras().remove(itemCarrinho);
 		}
 		carrinho.calcular();
+		return carrinho;
 	}
 
 }

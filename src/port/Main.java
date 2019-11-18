@@ -1,4 +1,4 @@
-package app;
+package port;
 
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;

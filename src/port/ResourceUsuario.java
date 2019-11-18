@@ -31,7 +31,7 @@ public class ResourceUsuario extends BaseResource {
 			if ((u == null) || (u.getLogin() == null)) {
 				return pedidoRuim();
 			}
-			servico.create(u);
+			servico.criar(u);
 			return sucesso();
 		} catch (Exception e) {
 			return erroNoServidor(e);
@@ -45,7 +45,7 @@ public class ResourceUsuario extends BaseResource {
 			if (idUsuario == null) {
 				return pedidoRuim();
 			}
-			Usuario usuario = servico.readById(idUsuario);
+			Usuario usuario = servico.buscarPorId(idUsuario);
 			if (usuario == null) {
 				ServicoResposta.adicionarLog(Log.falha("não encontrado."));
 			} else {
@@ -60,7 +60,7 @@ public class ResourceUsuario extends BaseResource {
 	@GET
 	public Response read() {
 		try {
-			List<Usuario> lista = servico.readAll();
+			List<Usuario> lista = servico.buscarTodos();
 			ServicoResposta.adicionarObjeto("lista", lista);
 			return sucesso();
 		} catch (Exception e) {
@@ -74,7 +74,7 @@ public class ResourceUsuario extends BaseResource {
 			if ((u == null) || (u.getIdUsuario() == null)) {
 				return pedidoRuim();
 			}
-			servico.update(u);
+			servico.alterar(u);
 			return sucesso();
 		} catch (Exception e) {
 			return erroNoServidor(e);
@@ -88,7 +88,7 @@ public class ResourceUsuario extends BaseResource {
 			if (idUsuario == null) {
 				return pedidoRuim();
 			}
-			servico.deleteById(idUsuario);
+			servico.deletarPorId(idUsuario);
 			return sucesso();
 		} catch (Exception e) {
 			return erroNoServidor(e);

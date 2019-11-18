@@ -25,7 +25,7 @@ public class ResourceOperacao extends BaseResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response read() {
 		try {
-			List<Operacao> lista = servico.readAll();
+			List<Operacao> lista = servico.buscarTodos();
 			ServicoResposta.adicionarObjeto("lista", lista);
 			return sucesso();
 		} catch (Exception e) {

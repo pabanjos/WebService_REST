@@ -15,6 +15,7 @@ public class FiltroRequest implements ContainerRequestFilter {
 
 	@Override
 	public void filter(final ContainerRequestContext ctx) throws IOException {
+		/*
 		String path = ctx.getUriInfo().getPath();
 		// paths acessiveis a qualquer um
 		if (!path.equals("usuarios/entrar") && !path.equals("usuarios/sair")) {
@@ -35,5 +36,6 @@ public class FiltroRequest implements ContainerRequestFilter {
 				}
 			}
 		}
+		*/
 	}
 }

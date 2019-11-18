@@ -5,6 +5,7 @@ import java.util.List;
 
 import beans.Registro;
 import infra.Constantes;
+import infra.ICRUD;
 import utils.Dao;
 
 public class DaoRegistro extends Dao implements ICRUD<Registro> {
@@ -14,7 +15,7 @@ public class DaoRegistro extends Dao implements ICRUD<Registro> {
 	}
 
 	@Override
-	public void create(final Registro acesso) throws Exception {
+	public void criar(final Registro acesso) throws Exception {
 		abrirConexao(Constantes.BANCO);
 		ps = con.prepareStatement("INSERT INTO acesso VALUES (NULL,?,?,now(),?)");
 		ps.setString(1, acesso.getNome());
@@ -25,17 +26,17 @@ public class DaoRegistro extends Dao implements ICRUD<Registro> {
 	}
 
 	@Override
-	public void createAll(final List<Registro> list) throws Exception {
+	public void criarTodos(final List<Registro> list) throws Exception {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Registro readById(final int idRegistro) throws Exception {
+	public Registro buscarPorId(final int idRegistro) throws Exception {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public List<Registro> readAll() throws Exception {
+	public List<Registro> buscarTodos() throws Exception {
 		List<Registro> lista = new ArrayList<>();
 		abrirConexao(Constantes.BANCO);
 		ps = con.prepareStatement("SELECT * FROM acesso");
@@ -54,17 +55,17 @@ public class DaoRegistro extends Dao implements ICRUD<Registro> {
 	}
 
 	@Override
-	public void update(final Registro obj) throws Exception {
+	public void alterar(final Registro obj) throws Exception {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void updateAll(final List<Registro> list) throws Exception {
+	public void alterarTodos(final List<Registro> list) throws Exception {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void deleteById(final int id) throws Exception {
+	public void deletarPorId(final int id) throws Exception {
 		abrirConexao(Constantes.BANCO);
 		ps = con.prepareStatement("DELETE FROM acesso WHERE idRegistro=" + id);
 		ps.execute();
@@ -72,7 +73,7 @@ public class DaoRegistro extends Dao implements ICRUD<Registro> {
 	}
 
 	@Override
-	public void deleteAllById(final int[] ids) throws Exception {
+	public void deletarTodosPorIds(final int[] ids) throws Exception {
 		abrirConexao(Constantes.BANCO);
 		for (int id : ids) {
 			ps = con.prepareStatement("DELETE FROM acesso WHERE idRegistro=" + id);

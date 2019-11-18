@@ -59,7 +59,7 @@ public class BaseResource {
 
 	protected Response erroNoServidor(final Exception e) {
 		if (e instanceof SQLException) {
-			ServicoResposta.adicionarLog(Log.falha("falha com o banco de dados: " + e.getMessage()));
+			ServicoResposta.adicionarLog(Log.falha("SQLException: " + e.getMessage()));
 		} else if (e instanceof NullPointerException) {
 			ServicoResposta.adicionarLog(Log.falha("valor vazio."));
 		} else {

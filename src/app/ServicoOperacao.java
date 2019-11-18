@@ -7,7 +7,7 @@ import beans.Operacao;
 import beans.Usuario;
 import dao.DaoOperacao;
 import dao.DaoUsuario;
-import dao.ICRUD;
+import infra.ICRUD;
 
 public class ServicoOperacao implements ICRUD<Operacao> {
 
@@ -19,21 +19,21 @@ public class ServicoOperacao implements ICRUD<Operacao> {
 	}
 
 	@Override
-	public void create(final Operacao obj) throws Exception {
-		daoOperacao.create(obj);
+	public void criar(final Operacao obj) throws Exception {
+		daoOperacao.criar(obj);
 	}
 
 	@Override
-	public void createAll(final List<Operacao> list) throws Exception {
+	public void criarTodos(final List<Operacao> list) throws Exception {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Operacao readById(final int id) throws Exception {
-		Operacao operacao = daoOperacao.readById(id);
+	public Operacao buscarPorId(final int id) throws Exception {
+		Operacao operacao = daoOperacao.buscarPorId(id);
 		if (Objects.nonNull(operacao)) {
-			Usuario local = daoUsuario.readById(operacao.getUsuarioLocal().getIdUsuario());
-			Usuario destino = daoUsuario.readById(operacao.getUsuarioDestino().getIdUsuario());
+			Usuario local = daoUsuario.buscarPorId(operacao.getUsuarioLocal().getIdUsuario());
+			Usuario destino = daoUsuario.buscarPorId(operacao.getUsuarioDestino().getIdUsuario());
 			operacao.setUsuarioLocal(local);
 			operacao.setUsuarioDestino(destino);
 		}
@@ -41,11 +41,11 @@ public class ServicoOperacao implements ICRUD<Operacao> {
 	}
 
 	@Override
-	public List<Operacao> readAll() throws Exception {
-		List<Operacao> operacoes = daoOperacao.readAll();
+	public List<Operacao> buscarTodos() throws Exception {
+		List<Operacao> operacoes = daoOperacao.buscarTodos();
 		for (Operacao operacao : operacoes) {
-			Usuario local = daoUsuario.readById(operacao.getUsuarioLocal().getIdUsuario());
-			Usuario destino = daoUsuario.readById(operacao.getUsuarioDestino().getIdUsuario());
+			Usuario local = daoUsuario.buscarPorId(operacao.getUsuarioLocal().getIdUsuario());
+			Usuario destino = daoUsuario.buscarPorId(operacao.getUsuarioDestino().getIdUsuario());
 			operacao.setUsuarioLocal(local);
 			operacao.setUsuarioDestino(destino);
 		}
@@ -53,22 +53,22 @@ public class ServicoOperacao implements ICRUD<Operacao> {
 	}
 
 	@Override
-	public void update(final Operacao obj) throws Exception {
-		daoOperacao.update(obj);
+	public void alterar(final Operacao obj) throws Exception {
+		daoOperacao.alterar(obj);
 	}
 
 	@Override
-	public void updateAll(final List<Operacao> list) throws Exception {
+	public void alterarTodos(final List<Operacao> list) throws Exception {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void deleteById(final int id) throws Exception {
-		daoOperacao.deleteById(id);
+	public void deletarPorId(final int id) throws Exception {
+		daoOperacao.deletarPorId(id);
 	}
 
 	@Override
-	public void deleteAllById(final int[] ids) throws Exception {
+	public void deletarTodosPorIds(final int[] ids) throws Exception {
 		throw new UnsupportedOperationException();
 	}
 

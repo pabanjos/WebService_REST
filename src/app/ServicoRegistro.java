@@ -8,7 +8,7 @@ import beans.Registro;
 import beans.Usuario;
 import dao.DaoRegistro;
 import dao.DaoUsuario;
-import dao.ICRUD;
+import infra.ICRUD;
 
 public class ServicoRegistro implements ICRUD<Registro> {
 
@@ -20,54 +20,54 @@ public class ServicoRegistro implements ICRUD<Registro> {
 	}
 
 	@Override
-	public void create(final Registro obj) throws Exception {
+	public void criar(final Registro obj) throws Exception {
 		obj.setNome(InetAddress.getLocalHost().getHostName());
 		obj.setIp(InetAddress.getLocalHost().getHostAddress());
-		daoRegistro.create(obj);
+		daoRegistro.criar(obj);
 	}
 
 	@Override
-	public void createAll(final List<Registro> list) throws Exception {
+	public void criarTodos(final List<Registro> list) throws Exception {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Registro readById(final int id) throws Exception {
-		Registro acesso = daoRegistro.readById(id);
+	public Registro buscarPorId(final int id) throws Exception {
+		Registro acesso = daoRegistro.buscarPorId(id);
 		if (Objects.nonNull(acesso)) {
-			Usuario usuario = daoUsuario.readById(acesso.getUsuario().getIdUsuario());
+			Usuario usuario = daoUsuario.buscarPorId(acesso.getUsuario().getIdUsuario());
 			acesso.setUsuario(usuario);
 		}
 		return acesso;
 	}
 
 	@Override
-	public List<Registro> readAll() throws Exception {
-		List<Registro> acessos = daoRegistro.readAll();
+	public List<Registro> buscarTodos() throws Exception {
+		List<Registro> acessos = daoRegistro.buscarTodos();
 		for (Registro a : acessos) {
-			Usuario u = daoUsuario.readById(a.getUsuario().getIdUsuario());
+			Usuario u = daoUsuario.buscarPorId(a.getUsuario().getIdUsuario());
 			a.setUsuario(u);
 		}
 		return acessos;
 	}
 
 	@Override
-	public void update(final Registro obj) throws Exception {
-		daoRegistro.update(obj);
+	public void alterar(final Registro obj) throws Exception {
+		daoRegistro.alterar(obj);
 	}
 
 	@Override
-	public void updateAll(final List<Registro> list) throws Exception {
+	public void alterarTodos(final List<Registro> list) throws Exception {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void deleteById(final int id) throws Exception {
-		daoRegistro.deleteById(id);
+	public void deletarPorId(final int id) throws Exception {
+		daoRegistro.deletarPorId(id);
 	}
 
 	@Override
-	public void deleteAllById(final int[] ids) throws Exception {
+	public void deletarTodosPorIds(final int[] ids) throws Exception {
 		throw new UnsupportedOperationException();
 	}
 

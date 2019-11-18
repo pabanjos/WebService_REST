@@ -5,6 +5,7 @@ import java.util.List;
 
 import beans.Filme;
 import infra.Constantes;
+import infra.ICRUD;
 import utils.Dao;
 
 public class DaoFilme extends Dao implements ICRUD<Filme> {
@@ -14,7 +15,7 @@ public class DaoFilme extends Dao implements ICRUD<Filme> {
 	}
 
 	@Override
-	public void create(final Filme filme) throws Exception {
+	public void criar(final Filme filme) throws Exception {
 		abrirConexao(Constantes.BANCO);
 		ps = con.prepareStatement("INSERT INTO filme VALUES (NULL,?,?,?,?,?,?,?,?)");
 		ps.setString(1, "poster404.jpg");
@@ -30,12 +31,12 @@ public class DaoFilme extends Dao implements ICRUD<Filme> {
 	}
 
 	@Override
-	public void createAll(final List<Filme> list) throws Exception {
+	public void criarTodos(final List<Filme> list) throws Exception {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Filme readById(final int idFilme) throws Exception {
+	public Filme buscarPorId(final int idFilme) throws Exception {
 		Filme filme = null;
 		abrirConexao(Constantes.BANCO);
 		ps = con.prepareStatement("SELECT * FROM filme WHERE idFilme=" + idFilme);
@@ -57,7 +58,7 @@ public class DaoFilme extends Dao implements ICRUD<Filme> {
 	}
 
 	@Override
-	public List<Filme> readAll() throws Exception {
+	public List<Filme> buscarTodos() throws Exception {
 		List<Filme> lista = new ArrayList<>();
 		abrirConexao(Constantes.BANCO);
 		ps = con.prepareStatement("SELECT * FROM filme ORDER BY lancamento DESC");
@@ -80,7 +81,7 @@ public class DaoFilme extends Dao implements ICRUD<Filme> {
 	}
 
 	@Override
-	public void update(final Filme filme) throws Exception {
+	public void alterar(final Filme filme) throws Exception {
 		abrirConexao(Constantes.BANCO);
 		ps = con.prepareStatement("UPDATE filme SET poster=?, titulo=?, genero=?, protagonista=?, diretor=?, "
 				+ "lancamento=?, preco=?, estoque=? WHERE idFilme=" + filme.getIdFilme());
@@ -97,12 +98,12 @@ public class DaoFilme extends Dao implements ICRUD<Filme> {
 	}
 
 	@Override
-	public void updateAll(final List<Filme> list) throws Exception {
+	public void alterarTodos(final List<Filme> list) throws Exception {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void deleteById(final int idFilme) throws Exception {
+	public void deletarPorId(final int idFilme) throws Exception {
 		abrirConexao(Constantes.BANCO);
 		ps = con.prepareStatement("DELETE FROM filme WHERE idFilme=" + idFilme);
 		ps.execute();
@@ -110,7 +111,7 @@ public class DaoFilme extends Dao implements ICRUD<Filme> {
 	}
 
 	@Override
-	public void deleteAllById(final int[] ids) throws Exception {
+	public void deletarTodosPorIds(final int[] ids) throws Exception {
 		abrirConexao(Constantes.BANCO);
 		for (int id : ids) {
 			ps = con.prepareStatement("DELETE FROM filme WHERE idFilme=" + id);

@@ -1,87 +1,3 @@
-drop database if exists banco;
-create database banco;
-use banco;
-
-create table usuario (
-    idUsuario		int             primary key    auto_increment,
-    login			varchar(15)     unique,
-    senha           varchar(15),
-    perfil          int
-);
-
-create table conta (
-    idConta			int             primary key    auto_increment,
-    numero          int,
-    saldo           decimal(4,2),
-	usuario			int             unique,
-    foreign key (usuario) references usuario (idUsuario) ON DELETE CASCADE
-);
-
-create table pessoa (
-    idPessoa        int             primary key    auto_increment,
-	nome            varchar(15),
-	email           varchar(20),
-	sexo            varchar(15),
-	telefone        varchar(15),
-	cep             varchar(15),
-	nascimento      timestamp,
-	usuario			int             unique,
-    foreign key (usuario) references usuario (idUsuario) ON DELETE CASCADE
-);
-
-create table registro (
-    idRegistro      int             primary key    auto_increment,
-    nome            varchar(20),
-    ip              varchar(20),
-    data            timestamp,
-	usuario			int,
-    foreign key (usuario) references usuario (idUsuario) ON DELETE CASCADE
-);
-
-create table operacao (
-    idOperacao      int             primary key    auto_increment,
-    tipo            int,
-    valor           decimal(4,2),
-    data            timestamp,
-    contaAtual      int,
-    contaDestino    int,
-    foreign key (contaAtual) references conta (idConta) ON DELETE CASCADE,
-    foreign key (contaDestino) references conta (idConta) ON DELETE CASCADE
-);
-
-create table filme (
-	idFilme 		int 			primary key 	auto_increment,
-	poster 			varchar(99),
-	titulo 			varchar(99),
-	genero 			varchar(99),
-	protagonista 	varchar(99),
-	diretor 		varchar(99),
-	lancamento      int,
-	preco 			decimal(4,2),
-	estoque         int
-);
-
-create table compra (
-    idCompra        int             primary key    auto_increment,
-    quantidade      int,
-    comprado        char,
-    data            timestamp,
-    usuario         int,
-    filme           int,
-    foreign key (usuario) references usuario (idUsuario) ON DELETE CASCADE,
-    foreign key (filme) references filme (idFilme) ON DELETE CASCADE
-);
-
-create table mensagem (
-    idMensagem      int             primary key    auto_increment,
-    texto           varchar(140),
-    data            timestamp,
-    visualizada     char,
-    remetente       int,
-    destinatario    int,
-    foreign key (remetente) references usuario (idUsuario) ON DELETE CASCADE,
-    foreign key (destinatario) references usuario (idUsuario) ON DELETE CASCADE
-);
 
 insert into usuario values
 (1,'123','123',1),
@@ -105,9 +21,13 @@ insert into mensagem values
 (1,'oi',now(),'S',1,2),
 (2,'ola',now(),'N',2,1);
 
+insert into conta values
+(1,11,10.00,1),
+(2,22,20.00,2);
+
 insert into operacao values
-(1,'deposito',20,now(),1,2),
-(2,'saque',10,now(),2,2);
+(1,1,20,now(),1,2),
+(2,2,10,now(),2,1);
 
 INSERT INTO filme VALUES
 (null,'Snow White and the Seven Dwarfs 1937.jpg','Snow White and the Seven Dwarfs','Animation',null,'William Cottrell',1937,77,10),
@@ -383,4 +303,3 @@ insert into compra values
 (5,3,'N',now(),2,50),
 (6,3,'N',now(),2,60),
 (7,3,'N',now(),2,70);
-

@@ -8,6 +8,7 @@ import java.util.List;
 import beans.Pessoa;
 import beans.Usuario;
 import infra.Constantes;
+import infra.ICRUD;
 import utils.Dao;
 
 public class DaoUsuario extends Dao implements ICRUD<Usuario> {
@@ -34,7 +35,7 @@ public class DaoUsuario extends Dao implements ICRUD<Usuario> {
 	}
 
 	@Override
-	public void create(final Usuario usuario) throws Exception {
+	public void criar(final Usuario usuario) throws Exception {
 		abrirConexao(Constantes.BANCO);
 		ps = con.prepareStatement("INSERT INTO usuario VALUES (null, ?, ?, ?)");
 		ps.setString(1, usuario.getLogin());
@@ -45,7 +46,7 @@ public class DaoUsuario extends Dao implements ICRUD<Usuario> {
 	}
 
 	@Override
-	public void createAll(final List<Usuario> list) throws Exception {
+	public void criarTodos(final List<Usuario> list) throws Exception {
 		throw new UnsupportedOperationException();
 	}
 
@@ -64,7 +65,7 @@ public class DaoUsuario extends Dao implements ICRUD<Usuario> {
 	}
 
 	@Override
-	public Usuario readById(final int idUsuario) throws Exception {
+	public Usuario buscarPorId(final int idUsuario) throws Exception {
 		Usuario usuario = null;
 		abrirConexao(Constantes.BANCO);
 		String syntax1 = "SELECT * FROM usuario u ";
@@ -79,7 +80,7 @@ public class DaoUsuario extends Dao implements ICRUD<Usuario> {
 	}
 
 	@Override
-	public List<Usuario> readAll() throws Exception {
+	public List<Usuario> buscarTodos() throws Exception {
 		List<Usuario> lista = new ArrayList<>();
 		abrirConexao(Constantes.BANCO);
 		String syntax1 = "SELECT * FROM usuario u ";
@@ -95,7 +96,7 @@ public class DaoUsuario extends Dao implements ICRUD<Usuario> {
 	}
 
 	@Override
-	public void update(final Usuario u) throws Exception {
+	public void alterar(final Usuario u) throws Exception {
 		abrirConexao(Constantes.BANCO);
 		ps = con.prepareStatement("UPDATE usuario SET login=?, senha=?, perfil=? WHERE idUsuario=" + u.getIdUsuario());
 		ps.setString(1, u.getLogin());
@@ -114,12 +115,12 @@ public class DaoUsuario extends Dao implements ICRUD<Usuario> {
 	}
 
 	@Override
-	public void updateAll(final List<Usuario> list) throws Exception {
+	public void alterarTodos(final List<Usuario> list) throws Exception {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void deleteById(final int id) throws Exception {
+	public void deletarPorId(final int id) throws Exception {
 		abrirConexao(Constantes.BANCO);
 		ps = con.prepareStatement("DELETE FROM usuario WHERE idUsuario=" + id);
 		ps.execute();
@@ -127,7 +128,7 @@ public class DaoUsuario extends Dao implements ICRUD<Usuario> {
 	}
 
 	@Override
-	public void deleteAllById(final int[] ids) throws Exception {
+	public void deletarTodosPorIds(final int[] ids) throws Exception {
 		abrirConexao(Constantes.BANCO);
 		for (int id : ids) {
 			ps = con.prepareStatement("DELETE FROM usuario WHERE idUsuario=" + id);
