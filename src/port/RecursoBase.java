@@ -9,9 +9,9 @@ import javax.ws.rs.core.Response.Status;
 import beans.Log;
 import servico.ServicoResposta;
 
-public class BaseResource {
+public class RecursoBase {
 
-	protected BaseResource() {
+	protected RecursoBase() {
 		super();
 	}
 

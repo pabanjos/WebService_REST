@@ -15,11 +15,11 @@ import infra.Constantes;
 import servico.ServicoResposta;
 
 @Path("/carrinho")
-public class ResourceCarrinho extends BaseResource {
+public class RecursoCarrinho extends RecursoBase {
 
 	private final ServicoCarrinho controle = new ServicoCarrinho();
 
-	public ResourceCarrinho() {
+	public RecursoCarrinho() {
 		super();
 	}
 

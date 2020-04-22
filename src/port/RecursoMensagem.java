@@ -8,16 +8,16 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import app.ServicoCompra;
-import beans.Compra;
+import app.ServicoMensagem;
+import beans.Mensagem;
 import servico.ServicoResposta;
 
-@Path("/compras")
-public class ResourceCompra extends BaseResource {
+@Path("/mensagens")
+public class RecursoMensagem extends RecursoBase {
 
-	private final ServicoCompra servico = new ServicoCompra();
+	private final ServicoMensagem servico = new ServicoMensagem();
 
-	public ResourceCompra() {
+	public RecursoMensagem() {
 		super();
 	}
 
@@ -25,7 +25,7 @@ public class ResourceCompra extends BaseResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response read() {
 		try {
-			List<Compra> lista = servico.buscarTodos();
+			List<Mensagem> lista = servico.buscarTodos();
 			ServicoResposta.adicionarObjeto("lista", lista);
 			return sucesso();
 		} catch (Exception e) {

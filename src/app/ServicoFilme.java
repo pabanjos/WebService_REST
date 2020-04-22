@@ -1,14 +1,19 @@
 package app;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import beans.Filme;
 import dao.DaoFilme;
 import infra.ICRUD;
+import port.ServletConfiguracao;
+import servico.ServicoResposta;
 
 public class ServicoFilme implements ICRUD<Filme> {
 
 	private final ICRUD<Filme> dao = new DaoFilme();
+	ScriptFactory fabrica = new ScriptFactory();
 
 	public ServicoFilme() {
 		super();
@@ -31,7 +36,12 @@ public class ServicoFilme implements ICRUD<Filme> {
 
 	@Override
 	public List<Filme> buscarTodos() throws Exception {
-		return dao.buscarTodos();
+		final List<Filme> filmes = dao.buscarTodos();
+		final Map<String, String> mapa = ServletConfiguracao.obterBytesImagens();
+		filmes.forEach(f -> {
+			f.setPoster(mapa.get(f.getTitulo()));
+		});
+		return filmes;
 	}
 
 	@Override
@@ -52,6 +62,14 @@ public class ServicoFilme implements ICRUD<Filme> {
 	@Override
 	public void deletarTodosPorIds(final int[] ids) throws Exception {
 		throw new UnsupportedOperationException();
+	}
+	
+	public void gerarScript() throws Exception {
+		Filme f1 = new Filme(null, "1", "1", "1", "1", "1", 1111, 1, 1);
+		Filme f2 = new Filme(null, "2", "2", "2", "2", "2", 2222, 2, 2);
+		final List<Filme> lista = Arrays.asList(f1, f2);
+		//buscarTodos();
+		fabrica.gerarScript(lista);
 	}
 
 }

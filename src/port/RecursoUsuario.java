@@ -17,11 +17,11 @@ import beans.Usuario;
 import servico.ServicoResposta;
 
 @Path("/usuarios")
-public class ResourceUsuario extends BaseResource {
+public class RecursoUsuario extends RecursoBase {
 
 	private final ServicoUsuario servico = new ServicoUsuario();
 
-	public ResourceUsuario() {
+	public RecursoUsuario() {
 		super();
 	}
 

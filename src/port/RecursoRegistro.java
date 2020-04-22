@@ -13,11 +13,11 @@ import beans.Registro;
 import servico.ServicoResposta;
 
 @Path("/registros")
-public class ResourceRegistro extends BaseResource {
+public class RecursoRegistro extends RecursoBase {
 
 	private final ServicoRegistro servico = new ServicoRegistro();
 
-	public ResourceRegistro() {
+	public RecursoRegistro() {
 		super();
 	}
 

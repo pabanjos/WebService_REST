@@ -19,11 +19,11 @@ import beans.Log;
 import servico.ServicoResposta;
 
 @Path("/filmes")
-public class ResourceFilme extends BaseResource {
+public class RecursoFilme extends RecursoBase {
 
 	private final ServicoFilme servico = new ServicoFilme();
 
-	public ResourceFilme() {
+	public RecursoFilme() {
 		super();
 	}
 
@@ -95,6 +95,18 @@ public class ResourceFilme extends BaseResource {
 				return pedidoRuim();
 			}
 			servico.deletarPorId(idFilme);
+			return sucesso();
+		} catch (Exception e) {
+			return erroNoServidor(e);
+		}
+	}
+
+	@GET
+	@Path("/gerarScript")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response gerarScript() {
+		try {
+			servico.gerarScript();
 			return sucesso();
 		} catch (Exception e) {
 			return erroNoServidor(e);

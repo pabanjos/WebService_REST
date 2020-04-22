@@ -13,11 +13,11 @@ import beans.Operacao;
 import servico.ServicoResposta;
 
 @Path("/operacoes")
-public class ResourceOperacao extends BaseResource {
+public class RecursoOperacao extends RecursoBase {
 
 	private final ServicoOperacao servico = new ServicoOperacao();
 
-	public ResourceOperacao() {
+	public RecursoOperacao() {
 		super();
 	}
 
